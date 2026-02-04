@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <title>Dom Uygulama</title>
+</head>
+
+<body>
+    <h1 class="text-5xl my-10 text-center">Todo List</h1>
+
+    <div class="container mx-auto w-1/2">
+        <form>
+            <div class="border flex">
+                <input type="text" id="todoinput" placeholder="Birşeyler yazınız..." class="w-full p-3 relative z-90">
+                <button type="submit" id="btnAdd" class="border-l px-6 bg-green-500 text-white">Ekle</button>
+            </div>
+        </form>
+
+        <div class="flex justify-end my-5 ">
+            <button type="submit" id="btntemizle" class="border-l p-3 bg-red-500 text-white">Temizle</button>
+
+        </div>
+
+        <ul class="border p-6 flex flex-col gap-y-4" id="todos">
+            <li class="flex justify-between border px-5 py-3 flex items-center">
+                <span>Liste Boş</span>
+                <button class="text-red-500"></button>
+
+            </li>
+        </ul>
+    </div>
+
+    <script>
+
+
+
+        const btntemizle = document.getElementById("btntemizle");
+        const textInput = document.getElementById("todoinput");
+        const btnAdd = document.getElementById("btnAdd");
+        const todos = document.getElementById("todos");
+        let textInputValue = "";
+        let todoList = [];
+        textInput.addEventListener("change", function (e) {
+            textInputValue = e.target.value;
+        })
+        btnAdd.addEventListener("click", function (e) {
+            e.preventDefault();
+            if (!textInputValue) return;
+            todoList.unshift({ id: todoList.length + 1, title: textInputValue });
+            textInput.value = "";
+            displayTodos();
+        })
+        function displayTodos() {
+            let result = "";
+            todoList.forEach((i) => {
+                result += ` <li class="flex justify-between border px-5 py-3 flex items-center">
+                <span>${i.title}</span>
+                <button class="text-red-500" onclick="deleteTodo(${i.id})">Sil</button>
+
+            </li>`
+            })
+            todos.innerHTML = result
+        }
+        btntemizle.addEventListener("click", ((e) => {
+            e.preventDefault();
+            todoList = [];
+            displayTodos();
+        }))
+
+        function deleteTodo(id) {
+            let deletedid;
+            for (let i in todoList) {
+                if (todoList[i].id === id)
+
+                    deletedid = i;
+
+            }
+            todoList.splice(deletedid, 1);
+            displayTodos();
+        }
+    </script>
+</body>
+
+</html>
